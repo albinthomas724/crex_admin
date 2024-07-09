@@ -61,6 +61,11 @@
       border: none;
       background-color: white;
     }
+    #updateUserSubmit:hover{
+      background-color: #e60124;
+      color: white !important;
+      border: none;
+    }
 
     @media (max-width: 768px) {
       .navbar {
@@ -85,7 +90,7 @@
             <h4>Admin Dashboard</h4>
           </div>
           <div class="navbar-nav ms-auto">
-            <a href="#" class="nav-item nav-link mx-2" id="display-btn"><i class="fa fa-user mx-2"></i>Users</a>
+            <a href="#" class="nav-item nav-link mx-2" id="userDisplayBtn"><i class="fa fa-user mx-2"></i>Users</a>
             <a href="#" class="nav-item nav-link mx-2"><i class="fa fa-tag mx-2"></i>Products</a>
             <a href="#" class="nav-item nav-link mx-2"><i class="fa fa-shopping-cart mx-2"></i>Orders</a>
             <a href="#" class="nav-item nav-link mx-2"><i class="fa fa-comment mx-2"></i>Feedback</a>
@@ -99,7 +104,8 @@
       <div class="card-header bg-white border-bottom-0" id="userHeader">
         <ul class="nav nav-tabs card-header-tabs d-flex justify-content-end">
           <li class="nav-item">
-            <a class="nav-link" aria-current="true" href="#" id="userUpdateBtn">Update User</a>
+            
+            <button id="userUpdateBtn" class="btn bg-white border-1" data-toggle="modal" data-target="#updateModal">Update User</button>
           </li>
         </ul>
       </div>
@@ -138,8 +144,53 @@
     });
   </script>
 
+
+<!-- --------------------- -->
+
+
+
+<!-- Update User Button -->
+
+<!-- Update Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateModalLabel">Update User</h5>
+        <button type="button" class="close bg-dark" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="update-form">
+          <div class="form-group">
+            <label for="update-username">Current Username:</label>
+            <input type="text" id="update-username" placeholder="Enter current username">
+          </div>
+          <div class="form-group">
+            <label for="new-username">New Username (optional):</label>
+            <input type="text" id="new-username" placeholder="Enter new username (optional)">
+          </div>
+          <div class="form-group">
+            <label for="update-email">Email (optional):</label>
+            <input type="email" id="update-email" placeholder="Enter new email (optional)">
+          </div>
+          <div class="form-group">
+            <label for="update-password">Password (optional):</label>
+            <input type="password" id="update-password" placeholder="Enter new password (optional)">
+          </div>
+          <button type="submit" id="updateUserSubmit" class="btn btn-dark">Update User</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ------------------------------- -->
+
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="adminImage.js"></script> <!-- Assuming image.js is in the same directory -->
+  <script type="module" src="adminImage.js"></script><!-- Assuming image.js is in the same directory -->
 
   <!-- Ionicons -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -148,7 +199,7 @@
   <!-- user details js -->
   <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
-  <script src="adminmUserDetails.js"></script>
+  <script type="module" src="adminmUserDetails.js"></script>
 
 </body>
 </html>
