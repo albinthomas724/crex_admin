@@ -1,22 +1,13 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-}
-.container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.form-group {
+
+.userUpdateForm {
     margin-bottom: 20px;
 }
-label {
+.userUpdateLabel{
     display: block;
     margin-bottom: 10px;
 }
+
+.userUpdateInput{
 input[type="text"], input[type="number"] {
     width: 100%;
     padding: 10px;
@@ -24,30 +15,127 @@ input[type="text"], input[type="number"] {
     border: 1px solid #ccc;
 }
 input[type="submit"], button {
-    background-color: #4CAF50;
+    
     color: #fff;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
-input[type="submit"]:hover, button:hover {
-    background-color: #3e8e41;
 }
+
 #display-container, #image-container {
     margin-top: 20px;
 }
-table {
+#userTable {
+    border-collapse: collapse;
+    width: 100%;
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+    }
+
+  }
+ 
+   #crexLogo{
+    max-width: 100px;
+    max-height: 100px;
+  }
+
+
+
+
+
+  
+
+
+   .navbar {
+    background-color: #e60124;
+    border-radius: 15px;
+    color: white !important;
+  }
+  .nav-item {
+    color: white !important;
+    border-radius: 15px;
+  }
+  .nav-item:hover {
+    background-color: white;
+    color: #e60124 !important;
+    border-radius: 15px;
+  }
+  .navbar-nav {
+    display: flex;
+  }
+  .nav-item:hover i {
+    display: inline-block;
+  }
+  .nav-item i {
+    display: none;
+  }
+  .navbar-toggler {
+    background-color: #e60124;
+    border: none;
+  }
+  .navbar-toggler:hover {
+    background-color: white;
+    +.collapse.navbar-collapse {
+      display: block;
+    }
+  }
+  #userUpdateBtn {
+    text-decoration: none;
+    color: black;
+    border-radius: 15px;
+  }
+  #userUpdateBtn:hover {
+    color: #e60124;
+    border-radius: 15px;
+  }
+  .table {
+    border: none;
+    background-color: white;
+  }
+  .table th, .table td {
+    border: none;
+    background-color: white;
+  }
+  #updateUserSubmit:hover{
+    background-color: #e60124;
+    color: white !important;
+    border: none;
+  }
+
+  @media (max-width: 768px) {
+    .navbar {
+      background-color: #e60124;
+      padding: 10px;
+    }
+  }
+
+
+
+  /* product */
+
+
+  #productTable {
     border-collapse: collapse;
     width: 100%;
   }
-  th,
-  td {
-    border: 1px solid #ddd;
+  
+  #productTable th, #productTable td {
     padding: 8px;
     text-align: left;
   }
-  img {
-    max-width: 100px;
-    max-height: 100px;
+  
+  #productTable th {
+    background-color: #f0f0f0;
+  }
+  
+  #productTable td {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  #productTable td:last-child {
+    text-align: center;
   }

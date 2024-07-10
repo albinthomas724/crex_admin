@@ -8,14 +8,18 @@ const firebaseConfig = {
   messagingSenderId: "209664661907",
   appId: "1:209664661907:web:933435dab65ebb20913066"
 };
+
 firebase.initializeApp(firebaseConfig);
 
+// Get a reference to the Realtime Database
+const db = firebase.database();
+
 // Reference to the users database
-const usersRef = firebase.database().ref('crex/users');
+const usersRef = db.ref('crex/users');
 
+// ... rest of your code
 
-
-// ...
+//... rest of your code
 
 function displayUserData() {
   usersRef.on('value', (snapshot) => {
@@ -48,20 +52,19 @@ function displayUserData() {
 // Function to delete user data
 function deleteUser(username) {
   usersRef.child(username).remove()
-   .then(() => {
+  .then(() => {
       alert(`User ${username} deleted successfully!`);
     })
-   .catch((error) => {
+  .catch((error) => {
       console.error('Error deleting user:', error);
       alert('Error deleting user. Please try again.');
     });
 }
-// ...
 
 // Add event listener to display button
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('userDisplayBtn').addEventListener('click', displayUserData);
-  document.getElementById('update-form').addEventListener('submit', function(event) {
+  document.getElementById('userUpdateForm').addEventListener('submit', function(event) {
     event.preventDefault();
     updateUserData();
   });
@@ -84,7 +87,7 @@ function updateUserData() {
     return;
   }
 
-  if (!email && !password && !newUsername) {
+  if (!email &&!password &&!newUsername) {
     alert('Please enter at least one field to update.');
     return;
   }
@@ -119,5 +122,3 @@ function updateUserData() {
 
 // Call displayUserData function when the page is loaded
 displayUserData();
-
-

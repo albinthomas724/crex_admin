@@ -9,77 +9,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="adminStyle.css">
 
-  <!-- Style -->
-  <style>
-    .navbar {
-      background-color: #e60124;
-      border-radius: 15px;
-      color: white !important;
-    }
-    .nav-item {
-      color: white !important;
-      border-radius: 15px;
-    }
-    .nav-item:hover {
-      background-color: white;
-      color: #e60124 !important;
-      border-radius: 15px;
-    }
-    .navbar-nav {
-      display: flex;
-    }
-    .nav-item:hover i {
-      display: inline-block;
-    }
-    .nav-item i {
-      display: none;
-    }
-    .navbar-toggler {
-      background-color: #e60124;
-      border: none;
-    }
-    .navbar-toggler:hover {
-      background-color: white;
-      +.collapse.navbar-collapse {
-        display: block;
-      }
-    }
-    #userUpdateBtn {
-      text-decoration: none;
-      color: black;
-      border-radius: 15px;
-    }
-    #userUpdateBtn:hover {
-      color: #e60124;
-      border-radius: 15px;
-    }
-    .table {
-      border: none;
-      background-color: white;
-    }
-    .table th, .table td {
-      border: none;
-      background-color: white;
-    }
-    #updateUserSubmit:hover{
-      background-color: #e60124;
-      color: white !important;
-      border: none;
-    }
 
-    @media (max-width: 768px) {
-      .navbar {
-        background-color: #e60124;
-        padding: 10px;
-      }
-    }
-  </style>
 </head>
 <body>
   <div class="m-4 bg-light">
     <nav class="navbar navbar-expand-md navbar-light sticky-top">
       <div class="container-fluid">
-        <a href="#" class="navbar-brand">
+        <a href="#" class="navbar-brand" id="crexLogo">
           <img src="adminAssets/crex.png" height="60px" alt="CREX" class="img-fluid">
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -91,7 +27,7 @@
           </div>
           <div class="navbar-nav ms-auto">
             <a href="#" class="nav-item nav-link mx-2" id="userDisplayBtn"><i class="fa fa-user mx-2"></i>Users</a>
-            <a href="#" class="nav-item nav-link mx-2"><i class="fa fa-tag mx-2"></i>Products</a>
+            <a href="#" class="nav-item nav-link mx-2"><i class="fa fa-tag mx-2" id="displayProduct"></i>Products</a>
             <a href="#" class="nav-item nav-link mx-2"><i class="fa fa-shopping-cart mx-2"></i>Orders</a>
             <a href="#" class="nav-item nav-link mx-2"><i class="fa fa-comment mx-2"></i>Feedback</a>
           </div>
@@ -105,7 +41,7 @@
         <ul class="nav nav-tabs card-header-tabs d-flex justify-content-end">
           <li class="nav-item">
             
-            <button id="userUpdateBtn" class="btn bg-white border-1" data-toggle="modal" data-target="#updateModal">Update User</button>
+            <button id="userUpdateBtn" class="btn bg-white border-1" data-toggle="modal" data-target="#updateUserModal">Update User</button>
           </li>
         </ul>
       </div>
@@ -127,23 +63,40 @@
         </div>
       </div>
     </div>
+
+
+
+
+<!-- product -->
+<div class="card text-center mt-6 border-0 shadow-lg">
+  <div class="card-header bg-white border-bottom-0" id="productHeader">
+    <ul class="nav nav-tabs card-header-tabs d-flex justify-content-end">
+      <li class="nav-item">
+        <button id="productUpdateBtn" class="btn bg-white border-1" data-toggle="modal" data-target="#updateModal">Update Product</button>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body" id="display-container-product">
+    <div class="table-responsive">
+      <table class="table table-striped" id="productTable">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="product-table-body">
+          <!-- product data will be displayed here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
   </div>
 
-  <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <script>
-    $(document).ready(function() {
-      $(document).click(function(event) {
-        var clickover = $(event.target);
-        var _opened = $(".navbar-collapse").hasClass("show");
-        if (_opened === true && !clickover.hasClass("navbar-toggler") && !clickover.hasClass("navbar-brand") && !clickover.hasClass("nav-item") && !clickover.hasClass("nav-link")) {
-          $(".navbar-toggler").trigger("click");
-        }
-      });
-    });
-  </script>
-
+  
 
 <!-- --------------------- -->
 
@@ -151,35 +104,35 @@
 
 <!-- Update User Button -->
 
-<!-- Update Modal -->
-<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+<!-- Update user Modal -->
+<div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="updateModalLabel">Update User</h5>
-        <button type="button" class="close bg-dark" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+        <h5 class="modal-title" id="updateUserModalLabel">Update User</h5>
+        <button type="button" class="btn btn-dark close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="text-white">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id="update-form">
-          <div class="form-group">
-            <label for="update-username">Current Username:</label>
-            <input type="text" id="update-username" placeholder="Enter current username">
+        <form id="userUpdateForm">
+          <div class="userUpdateForm">
+            <label for="update-username" class="userUpdateLabel">Current Username:</label>
+            <input type="text" id="update-username" placeholder="Enter current username" class="userUpdateInput">
           </div>
-          <div class="form-group">
-            <label for="new-username">New Username (optional):</label>
-            <input type="text" id="new-username" placeholder="Enter new username (optional)">
+          <div class="userUpdateForm">
+            <label for="new-username" class="userUpdateLabel">New Username (optional):</label>
+            <input type="text" id="new-username" placeholder="Enter new username (optional)" class="userUpdateInput">
           </div>
-          <div class="form-group">
-            <label for="update-email">Email (optional):</label>
+          <div class="userUpdateForm">
+            <label for="update-email" class="userUpdateLabel">Email (optional):</label>
             <input type="email" id="update-email" placeholder="Enter new email (optional)">
           </div>
-          <div class="form-group">
-            <label for="update-password">Password (optional):</label>
+          <div class="userUpdateForm">
+            <label for="update-password" class="userUpdateLabel">Password (optional):</label>
             <input type="password" id="update-password" placeholder="Enter new password (optional)">
           </div>
-          <button type="submit" id="updateUserSubmit" class="btn btn-dark">Update User</button>
+          <button type="submit" id="updateUserSubmit" class="btn btn-dark" class="userUpdateInput">Update User</button>
         </form>
       </div>
     </div>
@@ -187,19 +140,121 @@
 </div>
 
 
+
+
+<!-- product modal -->
+
+<!-- Update Modal -->
+<div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog" aria-labelledby="updateProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateProductModalLabel">Update Product</h5>
+        <button type="button" class="btn btn-dark close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="text-white">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="productUpdateForm">
+          <div class="form-group">
+            <label for="update-product-name">Product Name:</label>
+            <input type="text" id="update-product-name" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="update-price">Price:</label>
+            <input type="number" id="update-price" class="form-control">
+          </div>
+          <button type="submit" id="updateProductSubmit" class="btn btn-dark">Update Product</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
 <!-- ------------------------------- -->
+<!-- Ionicons -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script type="module" src="adminImage.js"></script><!-- Assuming image.js is in the same directory -->
+<!-- user details js -->
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
 
-  <!-- Ionicons -->
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-  <!-- user details js -->
-  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
-  <script type="module" src="adminmUserDetails.js"></script>
+<!-- Remove duplicate script tags -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+<!-- Initialize Firebase -->
+<script type="module" src="firebase-init.js"></script>
+
+<!-- User details JS -->
+<script type="module" src="adminUserDetails.js"></script>
+
+<!-- Product JS -->
+<script type="module" src="adminProduct.js"></script>
+
+
+
+
+
+<!-- ------------------------------------- -->
+
+
+
+
+
+<!-- Scripts -->
+
+
+<script>
+  $(document).ready(function() {
+    $(document).click(function(event) {
+      var clickover = $(event.target);
+      var _opened = $(".navbar-collapse").hasClass("show");
+      if (_opened === true && !clickover.hasClass("navbar-toggler") && !clickover.hasClass("navbar-brand") && !clickover.hasClass("nav-item") && !clickover.hasClass("nav-link")) {
+        $(".navbar-toggler").trigger("click");
+      }
+    });
+  });
+</script>
+
+
+
+
+
+  <!-- <script type="module" src="adminImage.js"></script>Assuming image.js is in the same directory -->
+
+  
+
+
+
+
+
+  <!-- product js -->
+<!-- Scripts -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<!-- <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script> -->
+
+<script>
+  $(document).ready(function() {
+    $(document).click(function(event) {
+      var clickover = $(event.target);
+      var _opened = $(".navbar-collapse").hasClass("show");
+      if (_opened === true && !clickover.hasClass("navbar-toggler") && !clickover.hasClass("navbar-brand") && !clickover.hasClass("nav-item") && !clickover.hasClass("nav-link")) {
+        $(".navbar-toggler").trigger("click");
+      }
+    });
+  });
+</script>
+
+<!-- ... -->
+
+<!-- <script type="module" src="adminProduct.js"></script> -->
 </body>
 </html>
