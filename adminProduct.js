@@ -1,14 +1,15 @@
 // adminProduct.js
 // Initialize Firebase
-// const firebaseConfig = {
-//   apiKey: "AIzaSyDczLLPnaREY3SahAMeKJ-DOMyVENmWwLk",
-//   authDomain: "crex-f9f68.firebaseapp.com",
-//   databaseURL: "https://crex-f9f68-default-rtdb.firebaseio.com",
-//   projectId: "crex-f9f68",
-//   storageBucket: "crex-f9f68.appspot.com",
-//   messagingSenderId: "209664661907",
-//   appId: "1:209664661907:web:933435dab65ebb20913066"
-// };
+const firebaseConfig = {
+  apiKey: "AIzaSyDczLLPnaREY3SahAMeKJ-DOMyVENmWwLk",
+  authDomain: "crex-f9f68.firebaseapp.com",
+  databaseURL: "https://crex-f9f68-default-rtdb.firebaseio.com",
+  projectId: "crex-f9f68",
+  storageBucket: "crex-f9f68.appspot.com",
+  messagingSenderId: "209664661907",
+  appId: "1:209664661907:web:933435dab65ebb20913066"
+};
+
 firebase.initializeApp(firebaseConfig);
 
 // // adminProduct.js

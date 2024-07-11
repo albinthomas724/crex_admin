@@ -26,17 +26,28 @@
             <h4>Admin Dashboard</h4>
           </div>
           <div class="navbar-nav ms-auto">
-            <a href="#" class="nav-item nav-link mx-2" id="userDisplayBtn"><i class="fa fa-user mx-2"></i>Users</a>
-            <a href="#" class="nav-item nav-link mx-2"><i class="fa fa-tag mx-2" id="displayProduct"></i>Products</a>
-            <a href="#" class="nav-item nav-link mx-2"><i class="fa fa-shopping-cart mx-2"></i>Orders</a>
-            <a href="#" class="nav-item nav-link mx-2"><i class="fa fa-comment mx-2"></i>Feedback</a>
+            
+            <button class="nav-item nav-link mx-2 border-0" id="userDisplayBtn">
+              <i class="fa fa-tag mx-2"></i>Users
+            </button>
+            <button class="nav-item nav-link mx-2 border-0" id="productBtn">
+              <i class="fa fa-user mx-2"></i>Products
+            </button>
+        
+            <button class="nav-item nav-link mx-2 border-0" id="ordersBtn">
+              <i class="fa fa-shopping-cart mx-2"></i>Orders
+            </button>
+
+            <button class="nav-item nav-link mx-2 border-0" id="feedbackBtn">
+              <i class="fa fa-comment mx-2"></i>Feedback
+            </button>
           </div>
         </div>
       </div>
     </nav>
 
     <!-- user body -->
-    <div class="card text-center mt-6 border-0 shadow-lg">
+    <div class="card text-center mt-4 border-0 shadow-lg rounded-lg" id="user-container">
       <div class="card-header bg-white border-bottom-0" id="userHeader">
         <ul class="nav nav-tabs card-header-tabs d-flex justify-content-end">
           <li class="nav-item">
@@ -68,7 +79,7 @@
 
 
 <!-- product -->
-<div class="card text-center mt-6 border-0 shadow-lg">
+<div class="card text-center mt-4 border-0 shadow-lg" id="product-container">
   <div class="card-header bg-white border-bottom-0" id="productHeader">
     <ul class="nav nav-tabs card-header-tabs d-flex justify-content-end">
       <li class="nav-item">
@@ -175,7 +186,194 @@
 
 
 
-<!-- ------------------------------- -->
+
+<!-- order -->
+
+
+<!-- Order Table -->
+<div class="card text-left mt-6 border-1 shadow-lg" id="order-table-container">
+  <div class="card-header bg-white border-bottom-1" id="order-header">
+    <h5>Orders</h5>
+  </div>
+  <div class="card-body" id="order-table-body">
+    <table class="table table-striped" id="order-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Username</th>
+          <th>Order Date</th>
+          <th>Product Name</th>
+          <th>Quantity</th>
+          <th>Image</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="order-table-body">
+        <!-- Orders will be displayed here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- feedback -->
+<div class="card text-center mt-6 border-0 shadow-lg m-4 rounded-lg"style="display:none;" id="feedback-container">
+  <div class="card-header bg-white border-bottom-0" id="userHeader">
+   
+    <h3>Feedback</h3>
+  </div>
+  <div class="card-body" id="display-container-users">
+    <div class="table-responsive">
+      <table class="table table-striped" id="feedback-table">
+        <thead>
+          <tr>
+            <th>Username</th>
+          <th>Rating</th>
+          <th>Comment</th>
+          <th>Timestamp</th>
+          <th>Delete</th>
+        
+          </tr>
+        </thead>
+        <tbody>
+          <!-- user data will be displayed here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Scripts -->
+
+<!-- navbar -->
+
+<!-- user -->
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
+<!-- <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const userBtn = document.getElementById("userDisplayBtn");
+    const productBtn = document.getElementById("productBtn");
+    const ordersBtn = document.getElementById("ordersBtn");
+    const feedbackBtn = document.getElementById("feedbackBtn");
+
+    const userContainer = document.getElementById("user-container");
+    const productContainer = document.getElementById("product-container");
+    const ordersContainer = document.getElementById("order-table-container");
+    const feedbackContainer = document.getElementById("feedback-container");
+
+    // Show user container by default
+    userContainer.style.display = "block";
+    productContainer.style.display = "none";
+    ordersContainer.style.display = "none";
+    feedbackContainer.style.display = "none";
+
+    userBtn.addEventListener("click", function() {
+      userContainer.style.display = "block";
+      productContainer.style.display = "none";
+      ordersContainer.style.display = "none";
+      feedbackContainer.style.display = "none";
+    });
+
+    productBtn.addEventListener("click", function() {
+      userContainer.style.display = "none";
+      productContainer.style.display = "block";
+      ordersContainer.style.display = "none";
+      feedbackContainer.style.display = "none";
+    });
+
+    ordersBtn.addEventListener("click", function() {
+      userContainer.style.display = "none";
+      productContainer.style.display = "none";
+      ordersContainer.style.display = "block";
+      feedbackContainer.style.display = "none";
+    });
+
+    feedbackBtn.addEventListener("click", function() {
+      userContainer.style.display = "none";
+      productContainer.style.display = "none";
+      ordersContainer.style.display = "none";
+      feedbackContainer.style.display = "block";
+    });
+  });
+</script>
+  -->
+
+  
+
+<!-- admin product -->
+<script type="module" src="adminProduct.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const feedbackBtn = document.getElementById("productBtn");
+    const feedbackContainer = document.getElementById("product-container");
+    const containersToToggle = [
+      document.getElementById("user-container"),
+      document.getElementById("feedback-container"),
+      document.getElementById("order-table-container")
+    ];
+
+    let isFeedbackVisible = false;
+
+    feedbackBtn.addEventListener("click", function() {
+      if (!isFeedbackVisible) {
+        containersToToggle.forEach(container => container.style.display = "none");
+        feedbackContainer.style.display = "block";
+        isFeedbackVisible = true;
+      } else {
+        containersToToggle.forEach(container => container.style.display = "block");
+        feedbackContainer.style.display = "none";
+        isFeedbackVisible = false;
+      }
+    });
+  });
+</script>
+
+
+<!-- adminorder -->
+
+<script type="module" src="adminOrder.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const feedbackBtn = document.getElementById("ordersBtn");
+    const feedbackContainer = document.getElementById("order-table-container");
+    const containersToToggle = [
+      document.getElementById("user-container"),
+      document.getElementById("feedback-container"),
+      document.getElementById("product-container")
+    ];
+
+    let isFeedbackVisible = false;
+
+    feedbackBtn.addEventListener("click", function() {
+      if (!isFeedbackVisible) {
+        containersToToggle.forEach(container => container.style.display = "none");
+        feedbackContainer.style.display = "block";
+        isFeedbackVisible = true;
+      } else {
+        containersToToggle.forEach(container => container.style.display = "block");
+        feedbackContainer.style.display = "none";
+        isFeedbackVisible = false;
+      }
+    });
+  });
+</script>
+
+
+
 <!-- Ionicons -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
@@ -189,72 +387,55 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<!-- Initialize Firebase -->
-<script type="module" src="firebase-init.js"></script>
+
+
 
 <!-- User details JS -->
 <script type="module" src="adminUserDetails.js"></script>
 
-<!-- Product JS -->
-<script type="module" src="adminProduct.js"></script>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="module" src="adminFeedback.js"></script>
+<!-- <script>
+  document.addEventListener("DOMContentLoaded", function() {
+  const feedbackBtn = document.getElementById("feedbackBtn");
+  const feedbackContainer = document.getElementById("feedback-container");
 
-
-
-<!-- ------------------------------------- -->
-
-
-
-
-
-<!-- Scripts -->
-
-
+  feedbackBtn.addEventListener("click", function() {
+    if (feedbackContainer.style.display === "none") {
+      feedbackContainer.style.display = "block";
+      fetchFeedbackDetails();
+    } else {
+      feedbackContainer.style.display = "none";
+    }
+  });
+});
+</script> -->
 <script>
-  $(document).ready(function() {
-    $(document).click(function(event) {
-      var clickover = $(event.target);
-      var _opened = $(".navbar-collapse").hasClass("show");
-      if (_opened === true && !clickover.hasClass("navbar-toggler") && !clickover.hasClass("navbar-brand") && !clickover.hasClass("nav-item") && !clickover.hasClass("nav-link")) {
-        $(".navbar-toggler").trigger("click");
+  document.addEventListener("DOMContentLoaded", function() {
+    const feedbackBtn = document.getElementById("feedbackBtn");
+    const feedbackContainer = document.getElementById("feedback-container");
+    const containersToToggle = [
+      document.getElementById("user-container"),
+      document.getElementById("product-container"),
+      document.getElementById("order-table-container")
+    ];
+
+    let isFeedbackVisible = false;
+
+    feedbackBtn.addEventListener("click", function() {
+      if (!isFeedbackVisible) {
+        containersToToggle.forEach(container => container.style.display = "none");
+        feedbackContainer.style.display = "block";
+        isFeedbackVisible = true;
+      } else {
+        containersToToggle.forEach(container => container.style.display = "block");
+        feedbackContainer.style.display = "none";
+        isFeedbackVisible = false;
       }
     });
   });
 </script>
-
-
-
-
-
-  <!-- <script type="module" src="adminImage.js"></script>Assuming image.js is in the same directory -->
-
-  
-
-
-
-
-
-  <!-- product js -->
-<!-- Scripts -->
-<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-<!-- <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script> -->
-
-<script>
-  $(document).ready(function() {
-    $(document).click(function(event) {
-      var clickover = $(event.target);
-      var _opened = $(".navbar-collapse").hasClass("show");
-      if (_opened === true && !clickover.hasClass("navbar-toggler") && !clickover.hasClass("navbar-brand") && !clickover.hasClass("nav-item") && !clickover.hasClass("nav-link")) {
-        $(".navbar-toggler").trigger("click");
-      }
-    });
-  });
-</script>
-
-<!-- ... -->
-
-<!-- <script type="module" src="adminProduct.js"></script> -->
 </body>
 </html>

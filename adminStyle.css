@@ -60,7 +60,7 @@ input[type="submit"], button {
     border-radius: 15px;
   }
   .nav-item:hover {
-    background-color: white;
+    background-color: white !important;
     color: #e60124 !important;
     border-radius: 15px;
   }
@@ -138,4 +138,18 @@ input[type="submit"], button {
   
   #productTable td:last-child {
     text-align: center;
+  }
+
+
+  #userDisplayBtn{
+    background-color: #e60124;
+  }
+  #feedbackBtn{
+    background-color:#e60124;
+  }
+  #productBtn{
+    background-color: #e60124;
+  }
+  #ordersBtn{
+    background-color: #e60124;
   }

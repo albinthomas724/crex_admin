@@ -9,7 +9,10 @@ const firebaseConfig = {
   appId: "1:209664661907:web:933435dab65ebb20913066"
 };
 
-firebase.initializeApp(firebaseConfig);
+// Check if the Firebase app has already been initialized
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 // Get a reference to the Realtime Database
 const db = firebase.database();
@@ -17,10 +20,7 @@ const db = firebase.database();
 // Reference to the users database
 const usersRef = db.ref('crex/users');
 
-// ... rest of your code
-
-//... rest of your code
-
+// Function to display user data
 function displayUserData() {
   usersRef.on('value', (snapshot) => {
     const userData = snapshot.val();
@@ -46,29 +46,23 @@ function displayUserData() {
         deleteUser(username);
       });
     });
+  }, (error) => {
+    console.error('Error fetching user data:', error);
+    alert('Error fetching user data. Please try again.');
   });
 }
 
 // Function to delete user data
 function deleteUser(username) {
   usersRef.child(username).remove()
-  .then(() => {
-      alert(`User ${username} deleted successfully!`);
-    })
-  .catch((error) => {
-      console.error('Error deleting user:', error);
-      alert('Error deleting user. Please try again.');
-    });
-}
-
-// Add event listener to display button
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('userDisplayBtn').addEventListener('click', displayUserData);
-  document.getElementById('userUpdateForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    updateUserData();
+ .then(() => {
+    alert(`User ${username} deleted successfully!`);
+  })
+ .catch((error) => {
+    console.error('Error deleting user:', error);
+    alert('Error deleting user. Please try again.');
   });
-});
+}
 
 // Function to update user data
 function updateUserData() {
@@ -120,5 +114,59 @@ function updateUserData() {
   });
 }
 
-// Call displayUserData function when the page is loaded
-displayUserData();
+document.addEventListener('DOMContentLoaded', () => {
+  const userBtn = document.getElementById("userDisplayBtn");
+  const productBtn = document.getElementById("productBtn");
+  const ordersBtn = document.getElementById("ordersBtn");
+  const feedbackBtn = document.getElementById("feedbackBtn");
+
+  const userContainer = document.getElementById("user-container");
+  const productContainer = document.getElementById("product-container");
+  const ordersContainer = document.getElementById("order-table-container");
+  const feedbackContainer = document.getElementById("feedback-container");
+
+  // Show user container by default
+  userContainer.style.display = "block";
+  productContainer.style.display = "none";
+  ordersContainer.style.display = "none";
+  feedbackContainer.style.display = "none";
+
+  // Add event listeners to buttons
+  userBtn.addEventListener("click", function() {
+    userContainer.style.display = "block";
+    productContainer.style.display = "none";
+    ordersContainer.style.display = "none";
+    feedbackContainer.style.display = "none";
+    displayUserData(); // Call displayUserData function when user button is clicked
+  });
+
+  productBtn.addEventListener("click", function() {
+    userContainer.style.display = "none";
+    productContainer.style.display = "block";
+    ordersContainer.style.display = "none";
+    feedbackContainer.style.display = "none";
+  });
+
+  ordersBtn.addEventListener("click", function() {
+    userContainer.style.display = "none";
+    productContainer.style.display = "none";
+    ordersContainer.style.display = "block";
+    feedbackContainer.style.display = "none";
+  });
+
+  feedbackBtn.addEventListener("click", function() {
+    userContainer.style.display = "none";
+    productContainer.style.display = "none";
+    ordersContainer.style.display = "none";
+    feedbackContainer.style.display = "block";
+  });
+
+  // Add event listener to update form
+  document.getElementById('userUpdateForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    updateUserData();
+  });
+
+  // Call displayUserData function when page is loaded for the first time
+  displayUserData();
+});
