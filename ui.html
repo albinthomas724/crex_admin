@@ -83,7 +83,11 @@
   <div class="card-header bg-white border-bottom-0" id="productHeader">
     <ul class="nav nav-tabs card-header-tabs d-flex justify-content-end">
       <li class="nav-item">
-        <button id="productUpdateBtn" class="btn bg-white border-1" data-toggle="modal" data-target="#updateModal">Update Product</button>
+        <button id="productUpdateBtn" class="btn bg-white border-1 gap-3" data-toggle="modal" data-target="#updateProductModal">Update Product</button>
+        <button id="createProductBtn" class="btn bg-white border-1" data-toggle="modal" data-target="#createProductModal">Create Product</button>
+      </li>
+      <li class="nav-item">
+        
       </li>
     </ul>
   </div>
@@ -92,9 +96,9 @@
       <table class="table table-striped" id="productTable">
         <thead>
           <tr>
-            <th>Product Name</th>
-            <th>Price</th>
-            <th>Action</th>
+            <th class="bg-white">Product Name</th>
+            <th class="bg-white">Price</th>
+            
           </tr>
         </thead>
         <tbody id="product-table-body">
@@ -110,6 +114,8 @@
   
 
 <!-- --------------------- -->
+
+<!-- product update modal -->
 
 
 
@@ -155,37 +161,72 @@
 
 <!-- product modal -->
 
-<!-- Update Modal -->
+<!--product Update Modal -->
 <div class="modal fade" id="updateProductModal" tabindex="-1" role="dialog" aria-labelledby="updateProductModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="updateProductModalLabel">Update Product</h5>
-        <button type="button" class="btn btn-dark close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true" class="text-white">&times;</span>
+        <button type="button" class="close btn-dark border-0" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id="productUpdateForm">
+        <form>
           <div class="form-group">
-            <label for="update-product-name">Product Name:</label>
-            <input type="text" id="update-product-name" class="form-control">
+            <label for="currentProductName">Current Product Name</label>
+            <input type="text" class="form-control" id="currentProductName" value="">
           </div>
           <div class="form-group">
-            <label for="update-price">Price:</label>
-            <input type="number" id="update-price" class="form-control">
+            <label for="newProductName">New Product Name (optional)</label>
+            <input type="text" class="form-control" id="newProductName" placeholder="Enter new product name">
           </div>
-          <button type="submit" id="updateProductSubmit" class="btn btn-dark">Update Product</button>
+          <div class="form-group">
+            <label for="productPrice">Product Price (optional)</label>
+            <input type="number" class="form-control" id="productPrice" placeholder="Enter product price">
+          </div>
+          <!-- Add more form fields as needed -->
         </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-dark" id="updateProductBtn">Update Product</button>
       </div>
     </div>
   </div>
 </div>
 
 
-
-
-
+<!-- new product creation modal -->
+<div class="modal fade" id="createProductModal" tabindex="-1" role="dialog" aria-labelledby="createProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createProductModalLabel">Create Product</h5>
+        <button type="button" class="close btn-dark border-0" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="productName">Product Name</label>
+            <input type="text" class="form-control" id="productName" required>
+          </div>
+          <div class="form-group">
+            <label for="productPrice">Product Price</label>
+            <input type="number" class="form-control" id="newProductPrice" required>
+          </div>
+          <!-- Add more form fields as needed -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-dark" id="createProductModalBtn">Create Product</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- order -->
 
