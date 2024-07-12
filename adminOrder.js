@@ -1,9 +1,10 @@
+
+// Import Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getDatabase,
   ref,
   onValue,
-  remove,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 import {
   getStorage,
@@ -19,7 +20,7 @@ const firebaseConfig = {
   projectId: "crex-f9f68",
   storageBucket: "crex-f9f68.appspot.com",
   messagingSenderId: "209664661907",
-  appId: "1:209664661907:web:933435dab65ebb20913066"
+  appId: "1:209664661907:web:933435dab65ebb20913066",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -47,65 +48,78 @@ async function getImageUrl(folder, imageFileName) {
   }
 }
 
-// Get the Order button
-const orderBtn = document.getElementById('order-btn');
+// Get a reference to the database
+const dbRef = ref(database, "orders");
 
-// Add event listener to the Order button
 // ...
 
-orderBtn.addEventListener('click', () => {
-  // Show the order table container
-  const orderTableContainer = document.getElementById('order-table-container');
-  orderTableContainer.style.display = 'block';
+//...
 
-  // Get a reference to the database
-  const dbRef = ref(database, "orders");
 
-  // Read data from the database
-  onValue(dbRef, async (snapshot) => {
-    const tableBody = document.getElementById("order-table-body");
-    tableBody.innerHTML = ""; // Clear existing rows
 
-    if (snapshot.exists()) {
-      const orders = snapshot.val();
+// Read data from the database
+onValue(dbRef, async (snapshot) => {
+  const ordersTableBody = document.getElementById("orders-table-body");
+  ordersTableBody.innerHTML = ""; // Clear existing rows
 
-      for (const orderId in orders) {
-        const order = orders[orderId];
-        const orderDate = new Date(order.orderDate);
-        const formattedDate = `${orderDate.toLocaleDateString()} ${orderDate.toLocaleTimeString()}`;
+  if (snapshot.exists()) {
+    const orders = snapshot.val();
 
-        for (const item of order.orderItems) {
-          // Get the quantity for the item
-          const quantity = order.quantity[item.name];
+    Object.keys(orders).forEach(async (orderId) => {
+      const order = orders[orderId];
+      const orderDate = new Date(order.orderDate);
+      const formattedDate = `${orderDate.toLocaleDateString()} ${orderDate.toLocaleTimeString()}`;
 
-          // Replace underscores with dots in the item name
-          const formattedItemName = item.name.replace(/_/g, ".");
+      for (const item of order.orderItems) {
+        // Get the quantity for the item
+        const quantity = order.quantity[item.name];
 
-          // Get the image URL
-          const imageUrl = await getImageUrl(
-            item.productType,
-            formattedItemName
-          );
+        // Replace underscores with dots in the item name
+        const formattedItemName = item.name.replace(/_/g, ".");
 
-          // Create a new table row
-          const row = `
-            <tr>
-              <td>${orderId}</td>
-              <td>${order.username}</td>
-              <td>${formattedDate}</td>
-              <td>${formattedItemName}</td>
-              <td>${quantity}</td>
-              <td><img src="${imageUrl}" alt="${formattedItemName}" width=30px height=50px /></td>
-              <td>
-                <button class="delete-btn" data-order-id="${orderId}">Delete</button>
-              </td>
-            </tr>
-          `;
-          tableBody.innerHTML += row;
-        }
+        // Get the image URL
+        const imageUrl = await getImageUrl(
+          item.productType,
+          formattedItemName
+        );
+
+        // Create a new table row
+        const tableRow = document.createElement("tr");
+        tableRow.innerHTML = `
+          <td>${orderId}</td>
+          <td>${order.username}</td>
+          <td>${formattedDate}</td>
+          <td>${formattedItemName}</td>
+          <td>${quantity}</td>
+          <td>
+            <div class="image-containerOrder">
+              <img src="${imageUrl}" alt="${formattedItemName}" class="img-fluid orderImage" />
+            </div>
+          </td>
+          <td>
+            <button class="btn btn-danger" id="delete-btn-${orderId}">Delete</button>
+          </td>
+        `;
+        ordersTableBody.appendChild(tableRow);
+
+        // Attach event listener to the delete button
+        const deleteBtn = document.getElementById(`delete-btn-${orderId}`);
+        deleteBtn.addEventListener("click", () => {
+          deleteOrder(orderId);
+        });
       }
-    }
-  });
+    });
+  }
 });
 
-// ...
+// Function to delete order data
+function deleteOrder(orderId) {
+  dbRef.child(orderId).remove()
+   .then(() => {
+      alert(`Order ${orderId} deleted successfully!`);
+    })
+   .catch((error) => {
+      console.error("Error deleting order:", error);
+      alert("Error deleting order. Please try again.");
+    });
+}

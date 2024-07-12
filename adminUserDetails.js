@@ -119,17 +119,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const productBtn = document.getElementById("productBtn");
   const ordersBtn = document.getElementById("ordersBtn");
   const feedbackBtn = document.getElementById("feedbackBtn");
+  const designBtn = document.getElementById("designBtn");
+
 
   const userContainer = document.getElementById("user-container");
   const productContainer = document.getElementById("product-container");
-  const ordersContainer = document.getElementById("order-table-container");
+  const ordersContainer = document.getElementById("orders-container");
   const feedbackContainer = document.getElementById("feedback-container");
+  const imageContainer = document.getElementById("product-image-container");
 
   // Show user container by default
   userContainer.style.display = "block";
   productContainer.style.display = "none";
   ordersContainer.style.display = "none";
   feedbackContainer.style.display = "none";
+  imageContainer.style.display = "none";
+
 
   // Add event listeners to buttons
   userBtn.addEventListener("click", function() {
@@ -137,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     productContainer.style.display = "none";
     ordersContainer.style.display = "none";
     feedbackContainer.style.display = "none";
+    imageContainer.style.display = "none";
     displayUserData(); // Call displayUserData function when user button is clicked
   });
 
@@ -145,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     productContainer.style.display = "block";
     ordersContainer.style.display = "none";
     feedbackContainer.style.display = "none";
+    imageContainer.style.display = "none";
   });
 
   ordersBtn.addEventListener("click", function() {
@@ -152,13 +159,23 @@ document.addEventListener('DOMContentLoaded', () => {
     productContainer.style.display = "none";
     ordersContainer.style.display = "block";
     feedbackContainer.style.display = "none";
+    imageContainer.style.display = "none";
   });
+
 
   feedbackBtn.addEventListener("click", function() {
     userContainer.style.display = "none";
     productContainer.style.display = "none";
     ordersContainer.style.display = "none";
     feedbackContainer.style.display = "block";
+    imageContainer.style.display = "none";
+  });
+  designBtn.addEventListener("click", function() {
+    userContainer.style.display = "none";
+    productContainer.style.display = "none";
+    ordersContainer.style.display = "none";
+    feedbackContainer.style.display = "none";
+    imageContainer.style.display = "block";
   });
 
   // Add event listener to update form

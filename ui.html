@@ -33,6 +33,10 @@
             <button class="nav-item nav-link mx-2 border-0" id="productBtn">
               <i class="fa fa-user mx-2"></i>Products
             </button>
+
+            <button class="nav-item nav-link mx-2 border-0" id="designBtn">
+              <i class="fa fa-image"></i>Designs
+            </button>
         
             <button class="nav-item nav-link mx-2 border-0" id="ordersBtn">
               <i class="fa fa-shopping-cart mx-2"></i>Orders
@@ -52,7 +56,7 @@
         <ul class="nav nav-tabs card-header-tabs d-flex justify-content-end">
           <li class="nav-item">
             
-            <button id="userUpdateBtn" class="btn bg-white border-1" data-toggle="modal" data-target="#updateUserModal">Update User</button>
+            <button id="userUpdateBtn" class="btn bg-white border-1" data-bs-toggle="modal" data-bs-target="#updateUserModal">Update User</button>
           </li>
         </ul>
       </div>
@@ -83,8 +87,8 @@
   <div class="card-header bg-white border-bottom-0" id="productHeader">
     <ul class="nav nav-tabs card-header-tabs d-flex justify-content-end">
       <li class="nav-item">
-        <button id="productUpdateBtn" class="btn bg-white border-1 gap-3" data-toggle="modal" data-target="#updateProductModal">Update Product</button>
-        <button id="createProductBtn" class="btn bg-white border-1" data-toggle="modal" data-target="#createProductModal">Create Product</button>
+        <button id="productUpdateBtn" class="btn bg-white border-1 gap-3" data-bs-toggle="modal" data-bs-target="#updateProductModal">Update Product</button>
+        <button id="createProductBtn" class="btn bg-white border-1" data-bs-toggle="modal" data-bs-target="#createProductModal">Create Product</button>
       </li>
       <li class="nav-item">
         
@@ -109,13 +113,85 @@
   </div>
 </div>
 
-  </div>
 
+
+
+
+
+</div>
+<!-- product image section -->
   
+<div class="card text-center mt-6 border-0 shadow-lg m-4 rounded-lg" id="product-image-container">
+  <div class="card-header bg-white border-bottom-0" id="productImageHeader">
+    <ul class="nav nav-tabs card-header-tabs d-flex justify-content-end">
+      
+      <li class="nav-item">
+        <button id="createImageBtn" class="btn bg-white border-1" data-bs-toggle="modal" data-bs-target="#createImageModal">Upload Image</button>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body" id="display-container-product">
+    <div id="image-container" class="container-fluid">
+      <!-- Designs div -->
+      <div id="designs-div" class="row mt-4">
+        <h2>Designs</h2>
+        <div id="designs-inner" class="row"></div>
+      </div>
+    
+      <!-- Logos div -->
+      <div id="logos-div" class="row mt-5">
+        <h2>Logos</h2>
+        <div id="logos-inner" class="row"></div>
+      </div>
+    
+      <!-- Text div -->
+      <div id="text-div" class="row mt-5">
+        <h2>Text</h2>
+        <div id="text-inner" class="row mt-5"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<!-- --------------------- -->
+<!-- image upload modal -->
 
-<!-- product update modal -->
+<div class="modal fade" id="createImageModal" tabindex="-1" role="dialog" aria-labelledby="createImageModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createImageModalLabel">Create New Image</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="imageName">Image Name:</label>
+            <input type="text" id="imageName" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="imageType">Image Type:</label>
+            <select id="imageType" class="form-control">
+              <option value="designs">Designs</option>
+              <option value="logos">Logos</option>
+              <option value="text">Text</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="imageFile">Image File:</label>
+            <input type="file" id="imageFile" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="uploadImageBtn">Upload Image</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---------------------------------- -->
 
 
 
@@ -127,27 +203,26 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="updateUserModalLabel">Update User</h5>
-        <button type="button" class="btn btn-dark close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true" class="text-white">&times;</span>
-        </button>
+        <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close"></button>
+
       </div>
       <div class="modal-body">
         <form id="userUpdateForm">
           <div class="userUpdateForm">
             <label for="update-username" class="userUpdateLabel">Current Username:</label>
-            <input type="text" id="update-username" placeholder="Enter current username" class="userUpdateInput">
+            <input type="text" id="update-username" placeholder="Enter current username" class="userUpdateInput form-control">
           </div>
           <div class="userUpdateForm">
             <label for="new-username" class="userUpdateLabel">New Username (optional):</label>
-            <input type="text" id="new-username" placeholder="Enter new username (optional)" class="userUpdateInput">
+            <input type="text" id="new-username" placeholder="Enter new username (optional)" class="userUpdateInput form-control">
           </div>
           <div class="userUpdateForm">
             <label for="update-email" class="userUpdateLabel">Email (optional):</label>
-            <input type="email" id="update-email" placeholder="Enter new email (optional)">
+            <input type="email" id="update-email" placeholder="Enter new email (optional)" class="form-control">
           </div>
           <div class="userUpdateForm">
             <label for="update-password" class="userUpdateLabel">Password (optional):</label>
-            <input type="password" id="update-password" placeholder="Enter new password (optional)">
+            <input type="password" id="update-password" placeholder="Enter new password (optional)" class="form-control">
           </div>
           <button type="submit" id="updateUserSubmit" class="btn btn-dark" class="userUpdateInput">Update User</button>
         </form>
@@ -167,9 +242,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="updateProductModalLabel">Update Product</h5>
-        <button type="button" class="close btn-dark border-0" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
       </div>
       <div class="modal-body">
         <form>
@@ -203,9 +277,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="createProductModalLabel">Create Product</h5>
-        <button type="button" class="close btn-dark border-0" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
       </div>
       <div class="modal-body">
         <form>
@@ -232,29 +305,33 @@
 
 
 <!-- Order Table -->
-<div class="card text-left mt-6 border-1 shadow-lg" id="order-table-container">
-  <div class="card-header bg-white border-bottom-1" id="order-header">
+<!-- orders body -->
+<div class="card text-center mt-6 border-0 shadow-lg m-4 rounded-lg" id="orders-container">
+  <div class="card-header bg-white border-bottom-0" id="orders-header">
     <h5>Orders</h5>
   </div>
-  <div class="card-body" id="order-table-body">
-    <table class="table table-striped" id="order-table">
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>Username</th>
-          <th>Order Date</th>
-          <th>Product Name</th>
-          <th>Quantity</th>
-          <th>Image</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="order-table-body">
-        <!-- Orders will be displayed here -->
-      </tbody>
-    </table>
+  <div class="card-body" id="orders-table-body">
+    <div class="table-responsive">
+      <table class="table table-striped" id="orders-table">
+        <thead class="orders-table-header">
+          <tr>
+            <th>Order ID</th>
+            <th>Username</th>
+            <th>Order Date</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Image</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="orders-table-body">
+          <!-- orders will be displayed here -->
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
+
 
 <!-- feedback -->
 <div class="card text-center mt-6 border-0 shadow-lg m-4 rounded-lg"style="display:none;" id="feedback-container">
@@ -304,60 +381,13 @@
 <!-- user -->
 <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
-<!-- <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const userBtn = document.getElementById("userDisplayBtn");
-    const productBtn = document.getElementById("productBtn");
-    const ordersBtn = document.getElementById("ordersBtn");
-    const feedbackBtn = document.getElementById("feedbackBtn");
 
-    const userContainer = document.getElementById("user-container");
-    const productContainer = document.getElementById("product-container");
-    const ordersContainer = document.getElementById("order-table-container");
-    const feedbackContainer = document.getElementById("feedback-container");
-
-    // Show user container by default
-    userContainer.style.display = "block";
-    productContainer.style.display = "none";
-    ordersContainer.style.display = "none";
-    feedbackContainer.style.display = "none";
-
-    userBtn.addEventListener("click", function() {
-      userContainer.style.display = "block";
-      productContainer.style.display = "none";
-      ordersContainer.style.display = "none";
-      feedbackContainer.style.display = "none";
-    });
-
-    productBtn.addEventListener("click", function() {
-      userContainer.style.display = "none";
-      productContainer.style.display = "block";
-      ordersContainer.style.display = "none";
-      feedbackContainer.style.display = "none";
-    });
-
-    ordersBtn.addEventListener("click", function() {
-      userContainer.style.display = "none";
-      productContainer.style.display = "none";
-      ordersContainer.style.display = "block";
-      feedbackContainer.style.display = "none";
-    });
-
-    feedbackBtn.addEventListener("click", function() {
-      userContainer.style.display = "none";
-      productContainer.style.display = "none";
-      ordersContainer.style.display = "none";
-      feedbackContainer.style.display = "block";
-    });
-  });
-</script>
-  -->
 
   
 
 <!-- admin product -->
 <script type="module" src="adminProduct.js"></script>
-<script>
+<!-- <script>
   document.addEventListener("DOMContentLoaded", function() {
     const feedbackBtn = document.getElementById("productBtn");
     const feedbackContainer = document.getElementById("product-container");
@@ -381,13 +411,45 @@
       }
     });
   });
-</script>
+</script> -->
+
+
+
+<!-- product image section -->
+<script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
+<script type="module" src="adminDesign.js"></script>
+<!-- <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const feedbackBtn = document.getElementById("designBtn");
+    const feedbackContainer = document.getElementById("product-image-container");
+    const containersToToggle = [
+      document.getElementById("user-container"),
+      document.getElementById("feedback-container"),
+      document.getElementById("product-container"),
+      document.getElementById("order-table-container")
+    ];
+
+    let isFeedbackVisible = false;
+
+    feedbackBtn.addEventListener("click", function() {
+      if (!isFeedbackVisible) {
+        containersToToggle.forEach(container => container.style.display = "none");
+        feedbackContainer.style.display = "block";
+        isFeedbackVisible = true;
+      } else {
+        containersToToggle.forEach(container => container.style.display = "block");
+        feedbackContainer.style.display = "none";
+        isFeedbackVisible = false;
+      }
+    });
+  });
+</script> -->
 
 
 <!-- adminorder -->
 
 <script type="module" src="adminOrder.js"></script>
-<script>
+<!-- <script>
   document.addEventListener("DOMContentLoaded", function() {
     const feedbackBtn = document.getElementById("ordersBtn");
     const feedbackContainer = document.getElementById("order-table-container");
@@ -411,7 +473,7 @@
       }
     });
   });
-</script>
+</script> -->
 
 
 
@@ -438,21 +500,9 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="module" src="adminFeedback.js"></script>
-<!-- <script>
-  document.addEventListener("DOMContentLoaded", function() {
-  const feedbackBtn = document.getElementById("feedbackBtn");
-  const feedbackContainer = document.getElementById("feedback-container");
 
-  feedbackBtn.addEventListener("click", function() {
-    if (feedbackContainer.style.display === "none") {
-      feedbackContainer.style.display = "block";
-      fetchFeedbackDetails();
-    } else {
-      feedbackContainer.style.display = "none";
-    }
-  });
-});
-</script> -->
+
+<!-- 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const feedbackBtn = document.getElementById("feedbackBtn");
@@ -476,7 +526,7 @@
         isFeedbackVisible = false;
       }
     });
-  });
+  }); -->
 </script>
 </body>
 </html>

@@ -9,6 +9,9 @@ const firebaseConfig = {
   appId: "1:209664661907:web:933435dab65ebb20913066"
 };
 
+
+
+
 // Check if the Firebase app has already been initialized
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -228,3 +231,9 @@ createProductBtn.addEventListener('click', function() {
     alert('Error creating product. Please try again.');
   });
 });
+
+
+
+
+
+
