@@ -1,10 +1,10 @@
-
 // Import Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getDatabase,
   ref,
   onValue,
+  remove,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 import {
   getStorage,
@@ -26,6 +26,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const storage = getStorage(app);
+const dbRef = ref(database, "orders");
+console.log(dbRef);
 
 // Function to fetch image URL from storage
 async function getImageUrl(folder, imageFileName) {
@@ -47,15 +49,6 @@ async function getImageUrl(folder, imageFileName) {
     return "";
   }
 }
-
-// Get a reference to the database
-const dbRef = ref(database, "orders");
-
-// ...
-
-//...
-
-
 
 // Read data from the database
 onValue(dbRef, async (snapshot) => {
@@ -83,43 +76,42 @@ onValue(dbRef, async (snapshot) => {
           formattedItemName
         );
 
-        // Create a new table row
         const tableRow = document.createElement("tr");
         tableRow.innerHTML = `
-          <td>${orderId}</td>
-          <td>${order.username}</td>
-          <td>${formattedDate}</td>
-          <td>${formattedItemName}</td>
-          <td>${quantity}</td>
-          <td>
+          <td class="col-md-1">${orderId}</td>
+          <td class="col-md-2">${order.username}</td>
+          <td class="col-md-2">${formattedDate}</td>
+          <td class="col-md-2">${formattedItemName}</td>
+          <td class="col-md-1">${quantity}</td>
+          <td class="col-md-2">
             <div class="image-containerOrder">
               <img src="${imageUrl}" alt="${formattedItemName}" class="img-fluid orderImage" />
             </div>
           </td>
-          <td>
+          <td class="col-md-1">
             <button class="btn btn-danger" id="delete-btn-${orderId}">Delete</button>
           </td>
         `;
-        ordersTableBody.appendChild(tableRow);
-
+        
         // Attach event listener to the delete button
-        const deleteBtn = document.getElementById(`delete-btn-${orderId}`);
+        const deleteBtn = tableRow.querySelector(`#delete-btn-${orderId}`);
         deleteBtn.addEventListener("click", () => {
           deleteOrder(orderId);
         });
+        
+        ordersTableBody.appendChild(tableRow);
       }
     });
   }
 });
 
-// Function to delete order data
 function deleteOrder(orderId) {
-  dbRef.child(orderId).remove()
-   .then(() => {
-      alert(`Order ${orderId} deleted successfully!`);
+  const orderRef = ref(database, `orders/${orderId}`);
+  remove(orderRef)
+ .then(() => {
+      console.log(`Order ${orderId} deleted successfully!`);
     })
-   .catch((error) => {
+ .catch((error) => {
       console.error("Error deleting order:", error);
-      alert("Error deleting order. Please try again.");
     });
 }

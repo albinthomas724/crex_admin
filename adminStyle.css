@@ -48,15 +48,14 @@ input[type="submit"], button {
 
 
   
-
-
+  
    .navbar {
     background-color: #e60124;
     border-radius: 15px;
     color: white !important;
   }
   .nav-item {
-    color: white !important;
+    color: white;
     border-radius: 15px;
   }
   .nav-item:hover {
@@ -143,18 +142,23 @@ input[type="submit"], button {
 
   #userDisplayBtn{
     background-color: #e60124;
+    color: white;
   }
   #feedbackBtn{
     background-color:#e60124;
+    color: white;
   }
   #productBtn{
     background-color: #e60124;
+    color: white;
   }
   #ordersBtn{
     background-color: #e60124;
+    color: white;
   }
   #designBtn{
     background-color: #e60124;
+    color: white;
   }
   #updateProductBtn:hover{
     background-color: #e60124;
@@ -170,3 +174,12 @@ input[type="submit"], button {
     height: 130px;
     margin: 10px;
   }
+  #createProductModalBtn:hover{
+    background-color: #e60124;
+    border: none;
+  }
+  #uploadImageBtn:hover{
+    background-color: #e60124;
+    border: none;
+  }
+  

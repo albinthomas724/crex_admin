@@ -160,7 +160,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="createImageModalLabel">Create New Image</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close"></button>
 
       </div>
       <div class="modal-body">
@@ -184,7 +184,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="uploadImageBtn">Upload Image</button>
+        <button type="button" class="btn btn-dark" id="uploadImageBtn">Upload Image</button>
         
       </div>
     </div>
@@ -242,7 +242,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="updateProductModalLabel">Update Product</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close"></button>
 
       </div>
       <div class="modal-body">
@@ -263,7 +263,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
         <button type="button" class="btn btn-dark" id="updateProductBtn">Update Product</button>
       </div>
     </div>
@@ -277,7 +277,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="createProductModalLabel">Create Product</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close"></button>
 
       </div>
       <div class="modal-body">
@@ -294,7 +294,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
         <button type="button" class="btn btn-dark" id="createProductModalBtn">Create Product</button>
       </div>
     </div>
@@ -309,6 +309,7 @@
 <div class="card text-center mt-6 border-0 shadow-lg m-4 rounded-lg" id="orders-container">
   <div class="card-header bg-white border-bottom-0" id="orders-header">
     <h5>Orders</h5>
+  
   </div>
   <div class="card-body" id="orders-table-body">
     <div class="table-responsive">
@@ -329,6 +330,7 @@
         </tbody>
       </table>
     </div>
+  
   </div>
 </div>
 
@@ -528,5 +530,22 @@
     });
   }); -->
 </script>
+<script>document.addEventListener('DOMContentLoaded', () => {
+  const buttons = document.querySelectorAll('.nav-item.nav-link');
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      // Remove active style from all buttons
+      buttons.forEach((btn) => {
+        btn.style.color = '';
+        btn.style.backgroundColor = '';
+      });
+
+      // Add active style to the clicked button
+      button.style.color = '#e60124';
+      button.style.backgroundColor = 'white';
+    });
+  });
+});</script>
 </body>
 </html>
