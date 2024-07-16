@@ -91,6 +91,18 @@ input[type="submit"], button {
     color: #e60124;
     border-radius: 15px;
   }
+  #productUpdateBtn:hover {
+    color: #e60124;
+    border-radius: 15px;
+  }
+  #createProductBtn:hover {
+    color: #e60124;
+    border-radius: 15px;
+  }
+  #createImageBtn:hover {
+    color: #e60124;
+    border-radius: 15px;
+  }
   .table {
     border: none;
     background-color: white;
@@ -182,4 +194,27 @@ input[type="submit"], button {
     background-color: #e60124;
     border: none;
   }
-  
+
+
+  /* minimum size for the divs in design tab */
+
+  #logos-div, #text-div, #designs-div {
+    min-width: 200px; /* set minimum width */
+    min-height: 300px; /* set minimum height */
+    margin-bottom: 20px;
+    margin-top: 30px;
+  }
+  .small-image {
+    width: 200px; /* adjust the width and height to your liking */
+    height: 300px;
+    object-fit: scale-down; /* to maintain the aspect ratio */
+    border-radius: 5px; /* optional */
+    margin: 10px; /* optional */
+  }
+ #uploadButton:hover{
+  color: #e60124;
+ }
+ #uploadImageBtn:hover{
+  background-color: #e60124;
+  color: white;
+ }

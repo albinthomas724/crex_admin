@@ -1,216 +1,124 @@
-import { uploadBytes, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getStorage, ref, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+    import { getFirestore, collection, addDoc, deleteDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDczLLPnaREY3SahAMeKJ-DOMyVENmWwLk",
-  authDomain: "crex-f9f68.firebaseapp.com",
-  databaseURL: "https://crex-f9f68-default-rtdb.firebaseio.com",
-  projectId: "crex-f9f68",
-  storageBucket: "crex-f9f68.appspot.com",
-  messagingSenderId: "209664661907",
-  appId: "1:209664661907:web:933435dab65ebb20913066"
-};
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCDYlCSgksz5aGrRd57He-yfuo8zzcog_I",
+      authDomain: "product-40143.firebaseapp.com",
+      databaseURL: "https://product-40143-default-rtdb.firebaseio.com",
+      projectId: "product-40143",
+      storageBucket: "product-40143.appspot.com",
+      messagingSenderId: "397255272673",
+      appId: "1:397255272673:web:829df4d68ea98cc7eb2fa0",
+      measurementId: "G-566VGYNG2K"
+    };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-const storage = getStorage(app);
+    document.addEventListener('DOMContentLoaded', function() {
+      const fileInput = document.getElementById('fileInput');
+      const uploadButton = document.getElementById('uploadButton');
+      const uploadImageBtn = document.getElementById('uploadImageBtn');
+      const onamImageContainer = document.getElementById('onamImageContainer');
+      const imagesImageContainer = document.getElementById('imagesImageContainer');
+      const collectionSelect = document.getElementById('collectionSelect');
+      const fileNameInput = document.getElementById('fileNameInput');
 
-// Get the file input element
-const designBtn = document.querySelector('#designBtn');
+      // Initialize the modal
+      const uploadModal = $('#uploadModal').modal({ show: false });
 
-// Add an event listener to the design button
-designBtn.addEventListener('click', () => {
-  // Remove existing images
-  document.getElementById('designs-inner').innerHTML = '';
-  document.getElementById('logos-inner').innerHTML = '';
-  document.getElementById('text-inner').innerHTML = '';
+      // Upload image and save to Firestore
+      uploadImageBtn.addEventListener('click', async () => {
+        const file = fileInput.files[0];
+        const fileName = fileNameInput.value;
+        const collectionName = collectionSelect.value;
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = async function(e) {
+            const dataUrl = e.target.result;
+            try {
+              await saveImageToFirestore(dataUrl, fileName, collectionName);
+              displayImagesFromFirestore(collectionName, collectionName === 'onam' ? onamImageContainer : imagesImageContainer);
+              uploadModal.modal('hide'); // Hide the modal after successful upload
+              fileInput.value = ''; // Reset the file input
+              fileNameInput.value = ''; // Reset the file name input
+            } catch (error) {
+              console.error('Error saving image to Firestore:', error);
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      });
 
-  // List all files in the storage locations
-  const designsRef = ref(storage, 'images/designs');
-  const logosRef = ref(storage, 'images/logos');
-  const textRef = ref(storage, 'images/text');
+      async function saveImageToFirestore(dataUrl, fileName, collectionName) {
+        try {
+          await addDoc(collection(db, collectionName), {
+            name: fileName,
+            dataUrl: dataUrl
+          });
+          console.log('Image saved to Firestore');
+        } catch (error) {
+          console.error('Error saving image to Firestore:', error);
+          throw error;
+        }
+      }
 
-  Promise.all([
-    listAll(designsRef),
-    listAll(logosRef),
-    listAll(textRef)
-  ]).then((results) => {
-    const designsItems = results[0].items;
-    const logosItems = results[1].items;
-    const textItems = results[2].items;
+      // Function to display images from Firestore
+      async function displayImagesFromFirestore(collectionName, imageContainer) {
+        imageContainer.innerHTML = '';
+        try {
+          const querySnapshot = await getDocs(collection(db, collectionName));
+          querySnapshot.forEach((doc) => {
+            const imageDiv = document.createElement('div');
+            imageDiv.className = 'col-md-4';
+            const fileName = doc.data().name;
+            const fileNameWithoutExtension = fileName.replace(/\.[^\.]+$/, ''); // remove file extension
+            imageDiv.innerHTML = `
+              <img src="${doc.data().dataUrl}" alt="${fileNameWithoutExtension}" class="img-fluid small-image">
+              <p>${fileNameWithoutExtension}</p> <!-- display file name without extension -->
+              <button type="button" class="btn btn-danger" id="deleteButton-${doc.id}">Delete</button>
+            `;
+            imageContainer.appendChild(imageDiv);
 
-    // ...
+            // Add event listener to delete button
+            const deleteButton = document.getElementById(`deleteButton-${doc.id}`);
+            deleteButton.addEventListener('click', async () => {
+              try {
+                await deleteImageFromFirestore(doc.id, collectionName);
+                console.log('Image deleted from Firestore');
+                displayImagesFromFirestore(collectionName, collectionName === 'onam' ? onamImageContainer : imagesImageContainer);
+              } catch (error) {
+                console.error('Error deleting image from Firestore:', error);
+              }
+            });
+          });
+        } catch (error) {
+          console.error('Error getting images:', error);
+        }
+      }
 
-//...
+      // Function to delete image from Firestore
+      async function deleteImageFromFirestore(imageId, collectionName) {
+        try {
+          await deleteDoc(doc(db, collectionName, imageId)); // Correct usage of doc() here
+          console.log('Image deleted from Firestore');
+        } catch (error) {
+          console.error('Error deleting image from Firestore:', error);
+        }
+      }
 
-// Designs div
-designsItems.forEach((item) => {
-    getDownloadURL(item).then((url) => {
-      const img = document.createElement('img');
-      img.src = url;
-      img.alt = item.name;
-      img.className = 'img-fluid';
-  
-      const colDiv = document.createElement('div');
-      colDiv.className = 'col-md-3 d-flex flex-column';
-  
-      const imgContainer = document.createElement('div');
-      imgContainer.className = 'flex-grow-1';
-      imgContainer.appendChild(img);
-  
-      const fileNameSpan = document.createElement('span');
-      const fileName = item.name.replace(/\.[^.]+$/, ''); // Remove file extension
-      fileNameSpan.textContent = fileName;
-      fileNameSpan.className = 'text-muted';
-  
-      const deleteBtn = document.createElement('button');
-      deleteBtn.className = 'btn btn-danger mt-2';
-      deleteBtn.textContent = 'Delete';
-      deleteBtn.onclick = () => {
-        deleteObject(item).then(() => {
-          console.log(`Deleted file ${item.name}`);
-          colDiv.remove();
-        }).catch((error) => {
-          console.error(`Error deleting file ${item.name}:`, error);
-        });
-      };
-  
-      colDiv.appendChild(imgContainer);
-      colDiv.appendChild(fileNameSpan);
-      colDiv.appendChild(deleteBtn);
-  
-      document.getElementById('designs-inner').appendChild(colDiv);
+      // Function to download image
+      function downloadImage(imageUrl, fileName) {
+        const a = document.createElement('a');
+        a.href = imageUrl;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+
+      displayImagesFromFirestore('onam', onamImageContainer);
+      displayImagesFromFirestore('images', imagesImageContainer);
     });
-  });
-  
-  // Logos div
-  logosItems.forEach((item) => {
-    getDownloadURL(item).then((url) => {
-      const img = document.createElement('img');
-      img.src = url;
-      img.alt = item.name;
-      img.className = 'img-fluid';
-  
-      const colDiv = document.createElement('div');
-      colDiv.className = 'col-md-3 d-flex flex-column';
-  
-      const imgContainer = document.createElement('div');
-      imgContainer.className = 'flex-grow-1';
-      imgContainer.appendChild(img);
-  
-      const fileNameSpan = document.createElement('span');
-      const fileName = item.name.replace(/\.[^.]+$/, ''); // Remove file extension
-      fileNameSpan.textContent = fileName;
-      fileNameSpan.className = 'text-muted';
-  
-      const deleteBtn = document.createElement('button');
-      deleteBtn.className = 'btn btn-danger mt-2';
-      deleteBtn.textContent = 'Delete';
-      deleteBtn.onclick = () => {
-        deleteObject(item).then(() => {
-          console.log(`Deleted file ${item.name}`);
-          colDiv.remove();
-        }).catch((error) => {
-          console.error(`Error deleting file ${item.name}:`, error);
-        });
-      };
-  
-      colDiv.appendChild(imgContainer);
-      colDiv.appendChild(fileNameSpan);
-      colDiv.appendChild(deleteBtn);
-  
-      document.getElementById('logos-inner').appendChild(colDiv);
-    });
-  });
-  
-  // Text div
-  textItems.forEach((item) => {
-    getDownloadURL(item).then((url) => {
-      const img = document.createElement('img');
-      img.src = url;
-      img.alt = item.name;
-      img.className = 'img-fluid';
-  
-      const colDiv = document.createElement('div');
-      colDiv.className = 'col-md-3 d-flex flex-column';
-  
-      const imgContainer = document.createElement('div');
-      imgContainer.className = 'flex-grow-1';
-      imgContainer.appendChild(img);
-  
-      const fileNameSpan = document.createElement('span');
-      const fileName = item.name.replace(/\.[^.]+$/, ''); // Remove file extension
-      fileNameSpan.textContent = fileName;
-      fileNameSpan.className = 'text-muted';
-  
-      const deleteBtn = document.createElement('button');
-      deleteBtn.className = 'btn btn-danger mt-2';
-      deleteBtn.textContent = 'Delete';
-      deleteBtn.onclick = () => {
-        deleteObject(item).then(() => {
-          console.log(`Deleted file ${item.name}`);
-          colDiv.remove();
-        }).catch((error) => {
-          console.error(`Error deleting file ${item.name}:`, error);
-        });
-      };
-  
-      colDiv.appendChild(imgContainer);
-      colDiv.appendChild(fileNameSpan);
-      colDiv.appendChild(deleteBtn);
-  
-      document.getElementById('text-inner').appendChild(colDiv);
-    });
-  });
-  });
-});
-
-
-
-// upload image modal js code
-
-
-// Get the modal elements
-const createImageModal = document.getElementById('createImageModal');
-const imageNameInput = document.getElementById('imageName');
-const imageTypeSelect = document.getElementById('imageType');
-const imageFileInput = document.getElementById('imageFile');
-const uploadImageBtn = document.getElementById('uploadImageBtn');
-
-// Add an event listener to the upload image button
-uploadImageBtn.addEventListener('click', () => {
-  // Get the selected file
-  const file = imageFileInput.files[0];
-
-  // Get the image type and name
-  const imageType = imageTypeSelect.value;
-  const imageName = imageNameInput.value;
-
-  // Create a reference to the storage location
-  const storageRef = ref(storage, `images/${imageType}/${imageName}`);
-
-  // Upload the file
-  uploadBytes(storageRef, file).then((snapshot) => {
-    console.log(`Uploaded file ${imageName} to ${imageType} location`);
-    // Close the modal after successful upload
-    $('#createImageModal').modal('hide');
-    // Optionally, clear form fields or perform any additional actions
-    imageNameInput.value = '';
-    imageFileInput.value = '';
-  }).catch((error) => {
-    console.error(`Error uploading file ${imageName}:`, error);
-  });
-});
-
-// Additional event listener for modal close event
-createImageModal.addEventListener('hidden.bs.modal', () => {
-  // Reset form fields when modal is closed
-  imageNameInput.value = '';
-  imageFileInput.value = '';
-});
